@@ -1,4 +1,4 @@
-##Práctica de SQL##
+## Práctica de SQL
 
 Para empezar accede a https://livesql.oracle.com/ crea una cuenta y entra al sistema.
 Aplica los contenidos de los archivos DDL.sql y DML.sql
@@ -6,92 +6,36 @@ Aplica los contenidos de los archivos DDL.sql y DML.sql
 
 1.-Consulta todos los campos de todas las tablas
 
-SELECT * FROM cliente;
-SELECT * FROM orden;
-SELECT * FROM empleado;
-SELECT * FROM orden_detalle;
-SELECT * FROM categoria;
-SELECT * FROM producto;
-SELECT * FROM vendedor_producto;
-SELECT * FROM vendedor;
 
 2.-Consulta el nombre y apellido de cada empleado
 
-SELECT nombre, apellido_paterno FROM empleado;
 
 3.-Agrégate como cliente y consulta el resultado
 
-SELECT id_cliente FROM cliente ORDER BY id_cliente DESC FETCH NEXT 1 ROWS ONlY;
-INSERT INTO cliente VALUES ((SELECT id_cliente FROM cliente ORDER BY id_cliente DESC FETCH NEXT 1 ROWS ONlY)+1, 'Alfonso', 'Mireles', 'Jacobo', 'México', 18273, '5555555555');
 
 4.-Consulta el nombre y apellido paterno de cada cliente y el nombre y apellido paterno de cada empleado que lo ha atendido (en un mismo query)
 
-SELECT cliente.nombre nombre_cliente, cliente.apellido_paterno apellido_cliente,
-      empleado.nombre nombre_empleado, empleado.apellido_paterno apellido_empleado
-FROM orden
-INNER JOIN cliente ON cliente.id_cliente = orden.id_cliente
-INNER JOIN empleado ON orden.id_empleado = empleado.id_empleado;
-
 5.-Consulta cuantos productos existen de cada categoria
-
-SELECT categoria.descripcion, COUNT(producto.no_producto)
-FROM producto
-INNER JOIN categoria ON producto.id_categoria = categoria.id_categoria
-GROUP BY categoria.descripcion;
 
 6.- Consulta todos los productos disponibles, quien vende cada uno, y en cuantos días te los entrega.
 
-SELECT producto.nombre, vendedor.nombre, vendedor_producto.dias_entrega
-FROM vendedor_producto
-INNER JOIN producto ON producto.no_producto = vendedor_producto.no_producto
-INNER JOIN vendedor ON vendedor.id_vendedor = vendedor_producto.id_vendedor;
-
 7.-Consulta que productos ha ordenado cada cliente
-
-SELECT cliente.id_cliente, cliente.nombre, cliente.apellido_paterno, producto.nombre
-FROM orden_detalle
-INNER JOIN orden ON orden_detalle.id_orden = orden.id_orden
-INNER JOIN cliente ON cliente.id_cliente = orden.id_cliente
-INNER JOIN producto ON producto.no_producto = orden_detalle.no_producto
 
 8.-Consulta cuantos productos ha ordenado cada cliente
 
-SELECT cliente.id_cliente, cliente.nombre, cliente.apellido_paterno, COUNT(producto.no_producto) No_productos_ordenados
-FROM orden_detalle
-INNER JOIN orden ON orden_detalle.id_orden = orden.id_orden
-INNER JOIN cliente ON cliente.id_cliente = orden.id_cliente
-INNER JOIN producto ON producto.no_producto = orden_detalle.no_producto GROUP BY cliente.id_cliente, cliente.nombre, cliente.apellido_paterno;
-
 9.-A esa última consulta agrega el total a pagar
-
-SELECT cliente.id_cliente, cliente.nombre, cliente.apellido_paterno, COUNT(producto.no_producto) No_productos_ordenados, SUM(producto.precio) Total_A_Pagar
-FROM orden_detalle
-INNER JOIN orden ON orden_detalle.id_orden = orden.id_orden
-INNER JOIN cliente ON cliente.id_cliente = orden.id_cliente
-INNER JOIN producto ON producto.no_producto = orden_detalle.no_producto GROUP BY cliente.id_cliente, cliente.nombre, cliente.apellido_paterno;
 
 10.-Filtra la tabla orden de acuerdo a las órdenes hechas en mayo 2017
 
-SELECT * FROM orden WHERE fecha>=TO_DATE('01/05/2017', 'DD/MM/YYYY') AND fecha<=TO_DATE('31/05/2017', 'DD/MM/YYYY');
-SELECT * FROM orden WHERE fecha BETWEEN TO_DATE('01/05/2017', 'DD/MM/YYYY') AND TO_DATE('31/05/2017', 'DD/MM/YYYY');
-
 11.-Modifica el pais de la tabla cliente donde diga 'USA' y actualízalos por 'Estados Unidos' y consulta que el resultado haya sido exitoso.
-
-UPDATE cliente SET pais = 'Estados Unidos' WHERE pais = 'USA';
-SELECT * FROM cliente;
 
 12.- Haz lo mismo para la tabla empleado.
 
-UPDATE empleado SET pais = 'Estados Unidos' WHERE pais = 'USA';
-SELECT * FROM empleado;
-
 13.- Agrega una columna de tipo INT a la tabla orden para indicar que está activa
 
-ALTER TABLE orden
-ADD COLUMN activa INT NULL DEFAULT 1 AFTER fecha;
 
 
-##Práctica de MongoDB##
+## Práctica de MongoDB 
 
 1.- Entra a https://www.tutorialspoint.com/mongodb_terminal_online.php
 
